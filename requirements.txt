@@ -1,8 +1,0 @@
-requests==2.31.0
-numpy==1.26.4
-fastapi==0.115.11
-types-requests==2.31.0.6
-mypy==1.8.0
-flake8==7.0.0
-black==24.2.0
-pip_check_reqs==2.0.1
