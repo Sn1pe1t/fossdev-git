@@ -17,4 +17,6 @@ Order-service обращается к product-service по адресу http://1
 
 Контейнеры подключены к общей Docker-сети. Встроенный DNS-сервер Docker преобразует имя сервиса (product-service) в IP-адрес контейнера. Так order-service находит product-service и discount-service без использования 127.0.0.1
 
-# 
+# Использование `host.docker.internal`
+
+host.docker.internal — адрес хоста из контейнера (только Windows/macOS). Например, чтобы контейнер обратился к базе данных, запущенной на компьютере.
