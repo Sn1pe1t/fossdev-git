@@ -1,6 +1,5 @@
 VENV = .venv
 PYTHON = $(VENV)/Scripts/python
-PIP_MISSING_REQS = $(VENV)/Scripts/pip-missing-reqs
 
 .PHONY: venv install run typecheck lint format check-requirements check clean
 
@@ -24,8 +23,8 @@ format: venv
 	$(PYTHON) -m black src/
 
 check-requirements: venv
-	@echo "Checking for missing requirements..."
-	$(PIP_MISSING_REQS) --ignore-file=src/example.py src/
+	@echo "Checking for missing/extra dependencies..."
+	$(PYTHON) check_import.py
 
 check: typecheck lint check-requirements
 
