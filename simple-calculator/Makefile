@@ -8,9 +8,9 @@ venv:
 	python -m venv $(VENV)
 
 install: venv
-	$(PIP) install --upgrade pip
-	$(PIP) install -r requirements.txt
-	$(PIP) install -e .
+	$(PYTHON) -m pip install --upgrade pip
+	$(PYTHON) -m pip install -r requirements.txt
+	$(PYTHON) -m pip install -e .
 
 test: install
 	$(PYTHON) -m pytest tests/
