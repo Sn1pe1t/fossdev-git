@@ -12,19 +12,19 @@ install: venv
 	$(PYTHON) -m pip install -r requirements.txt
 	$(PYTHON) -m pip install -e .
 
-test: install
+test:
 	$(PYTHON) -m pytest tests/
 
-lint: install
+lint:
 	$(PYTHON) -m flake8 src/ tests/
 
-typecheck: install
+typecheck:
 	$(PYTHON) -m mypy src/
 
-format: install
+format:
 	$(PYTHON) -m black src/ tests/
 
-build: install
+build:
 	$(PYTHON) -m build
 
 upload-test: build
