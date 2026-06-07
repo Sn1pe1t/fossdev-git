@@ -19,7 +19,7 @@ services:
       retries: 3
     restart: unless-stopped
 
-  # Сервис товаров (healthcheck удалён)
+  # Сервис товаров
   product-service:
     build: ./product-service
     container_name: product-service
@@ -29,7 +29,7 @@ services:
       - "8000"
     restart: unless-stopped
 
-  # Сервис скидок (healthcheck удалён)
+  # Сервис скидок
   discount-service:
     build: ./discount-service
     container_name: discount-service
@@ -39,7 +39,7 @@ services:
       - "8000"
     restart: unless-stopped
 
-  # Сервис заказов (healthcheck удалён, depends_on без condition)
+  # Сервис заказов
   order-service:
     build: ./order-service
     container_name: order-service
