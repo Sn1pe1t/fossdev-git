@@ -4,7 +4,7 @@ from typing import Any
 import psycopg
 from psycopg.rows import dict_row
 
-from .settings import get_settings
+from settings import get_settings
 
 
 CREATE_ORDERS_TABLE = """
