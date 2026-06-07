@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  # База данных PostgreSQL для order-service
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: orders
+    ports:
+      - "5432:5432"               # опционально, для отладки с хоста
+    networks:
+      - micro-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d orders"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+
+  # Сервис товаров (product-service)
+  product-service:
+    build: ./product-service
+    container_name: product-service
+    networks:
+      - micro-net
+    expose:
+      - "8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+
+  # Сервис скидок (discount-service)
+  discount-service:
+    build: ./discount-service
+    container_name: discount-service
+    networks:
+      - micro-net
+    expose:
+      - "8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+
+  # Сервис заказов (order-service)
+  order-service:
+    build: ./order-service
+    container_name: order-service
+    ports:
+      - "8002:8000"               # доступен с хоста на порту 8002
+    environment:
+      PRODUCT_SERVICE_URL: http://product-service:8000
+      DISCOUNT_SERVICE_URL: http://discount-service:8000
+      DATABASE_URL: postgresql://app:app@postgres:5432/orders
+    depends_on:
+      postgres:
+        condition: service_healthy
+      product-service:
+        condition: service_healthy
+      discount-service:
+        condition: service_healthy
+    networks:
+      - micro-net
+    restart: unless-stopped
+
+# Общая сеть для взаимодействия контейнеров
+networks:
+  micro-net:
+    driver: bridge
