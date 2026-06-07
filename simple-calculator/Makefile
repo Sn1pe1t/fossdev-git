@@ -27,7 +27,7 @@ format:
 build:
 	$(PYTHON) -m build
 
-upload-test: build
+upload-test:
 	$(PYTHON) -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 
 clean:
